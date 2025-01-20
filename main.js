@@ -6,11 +6,9 @@ const flag_button_color = "background: rgb(147, 217, 147)";
 if (document.cookie != "")
     user_data = JSON.parse(document.cookie);
 
-console.log(user_data)
 
 function save_cookie() {
     const temp = JSON.stringify(user_data);
-    console.log(temp)
     document.cookie = temp;
 }
 
@@ -98,10 +96,8 @@ function add_to_tbody(i, v) {
                 } else {
                     td.style = "";
                 }
-                console.log(e, `${v["index"]}`, user_data[`${v["index"]}`]);
                 user_data[`${v["index"]}`][j] = flag_button.checked;
                 save_cookie();
-                console.log(user_data)
             }
 
             div.appendChild(flag_button);
@@ -122,8 +118,6 @@ function add_to_tbody(i, v) {
 }
 document.addEventListener("DOMContentLoaded", async (event) => {
     award_table_data = await (await fetch("/data.json")).json();
-
-    console.log(award_table_data)
 
     init_user_data();
 
