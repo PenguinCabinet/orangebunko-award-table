@@ -79,11 +79,11 @@ function add_to_tbody(i, v) {
             div.className = "";
 
             let body_link_novel = document.createElement("a");
-            body_link_novel.href = e["body_url"];
+            //body_link_novel.href = e["body_url"];
             body_link_novel.innerText = e["name"];
 
             let review_link_novel = document.createElement("a");
-            review_link_novel.href = e["review_url"];
+            //review_link_novel.href = e["review_url"];
             review_link_novel.innerText = "選評";
 
             let flag_button = document.createElement("input");
