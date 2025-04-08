@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import json
 import time
+import os
 
 
 def func(index, last_flag=False):
@@ -26,27 +27,37 @@ def func(index, last_flag=False):
         title.append(e.text)
     print(title)
 
-    a_elem = soup.find("article", class_="award-detail").find_all("a", href=True)
-    links = []
-    for e in a_elem:
-        links.append("https://orangebunko.shueisha.co.jp" + e["href"])
-    print(a_elem)
-
+    ul_elem = soup.find("article", class_="award-detail").find_all("ul")
     result["award"] = []
 
-    for i in range(len(title)):
+    print(ul_elem)
+
+    for i, e in enumerate(ul_elem):
+        a_elem = e.find_all("a", href=True)
+        body_url = ""
+        review_url = ""
+        for e2 in a_elem:
+            if "選評" in e2.text:
+                review_url = "https://orangebunko.shueisha.co.jp" + e2["href"]
+            else:
+                body_url = "https://orangebunko.shueisha.co.jp" + e2["href"]
         result["award"].append(
-            {"name": title[i], "body_url": links[2 * i], "review_url": links[2 * i + 1]}
+            {
+                "name": title[i],
+                "body_url": body_url,
+                "review_url": review_url,
+            }
         )
-    print(json.dumps(result))
+
     return result
 
 
 last_N = 232
 
 data = []
-with open("data.json") as f:
-    data = json.load(f)
+if os.path.isfile("data.json"):
+    with open("data.json") as f:
+        data = json.load(f)
 
 index_list = [e["index"] for e in data]
 index_set = set(index_list)
